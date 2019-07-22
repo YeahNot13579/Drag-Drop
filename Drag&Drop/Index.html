@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .stanford_bridge{
+        height: 100vh;
+        background-image: url('img/Stanford_bridge.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+ 
+   
+    .char{
+        position: absolute;
+        right: 100px;
+        top: 300px;
+    }
+</style>
+<body>
+    <div class="stanford_bridge"> 
+        <img src="./img/Charlamenko.png" alt="char" class="char">
+        <img src="./img/3.png" class="ball" alt="one" style="width: 200px">
+        <img src="./img/2.png" class="ball" alt="one" style="width: 200px">
+        <img src="./img/5.png" class="ball" alt="one" style="width: 180px">
+        <img src="./img/6.png" class="ball" alt="one" style="width: 160px">
+        <img src="./img/7.png" class="ball" alt="one" style="width: 130px">
+        <img src="./img/8.png" class="ball" alt="one" style="width: 140px">
+        <img src="./img/one.png" class="ball" alt="one" style="width: 180px">
+    </div>
+
+    <script>
+        let ball = document.querySelectorAll('.ball');
+        let stanford_bridge = document.querySelector('.stanford_bridge');
+
+        //1 .Отслеживаем нажатие
+        
+
+        for(let i of ball)
+        {
+            i.addEventListener('mousedown', () => {
+
+                //2 .готовим мяч к переносу
+
+                let coords = event.target.getBoundingClientRect();
+                let shiftX = event.pageX - coords.left;
+                let shiftY = event.pageY - coords.top;
+
+                event.target.style.position = 'absolute';
+                moveAt(event, shiftX, shiftY);
+
+                //3 .Перемещение по экрану
+                stanford_bridge.onmousemove = () => {
+                    moveAt(event, shiftX, shiftY);
+
+                    //4 .Окончание переноса
+                    event.target.onmouseup = () => {
+                        stanford_bridge.onmousemove = null;
+                        event.target.onmouseup = null;
+                    }
+                }
+                event.target.ondragstart = () =>  {return false};
+            });
+            
+        }
+        function moveAt(e,shiftX, shiftY) {
+            e.target.style.left = (e.pageX - shiftX) + 'px' ;
+            e.target.style.top = (e.pageY - shiftY) + 'px' ;
+        }
+    </script>
+</body>
+</html>
